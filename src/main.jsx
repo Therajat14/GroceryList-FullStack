@@ -8,24 +8,28 @@ import SearchBar from './searchBar.jsx';
 
 
 function Main() {
-  console.log('Main component');
+  // console.log('Main component');
 
   const API_URL = "http://localhost:3500/items";
 
   const [groceries, setGroceries] = useState([]);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
   const [newItem, setNewItem] = useState('');
+  const [fetchErr, setFetchErr] = useState(null);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await fetch(API_URL);
+        if (!response.ok) throw Error("Did not recived expected data")
         const items = await response.json();
         console.log(items)
-        setGroceries([...items])
+        setGroceries(items);
+        setFetchErr(null);
       }
-      catch {
-        console.log("ERROR")
+      catch (err) {
+        console.error(err.message);
+        setFetchErr(err.message);
       }
     }
     fetchItems();
