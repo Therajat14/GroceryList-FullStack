@@ -9,7 +9,7 @@ function App({ groceries, setGroceries, handleCheck, binHandler }) {
 
 
   return (
-    <div>
+    <>
       {groceries.length ? (
         // Check if there are items in the groceries list
         <List groceries={groceries} setGroceries={setGroceries} handleCheck={handleCheck} binHandler={binHandler} />
@@ -17,7 +17,7 @@ function App({ groceries, setGroceries, handleCheck, binHandler }) {
         : (
           <h1>No Items in the List</h1> // Render this when the list is empty
         )}
-    </div>
+    </>
   );
 
 }

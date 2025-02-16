@@ -7,6 +7,7 @@ import AddItem from './additem.jsx';
 import SearchBar from './searchBar.jsx';
 
 
+
 function Main() {
   // console.log('Main component');
 
@@ -16,6 +17,7 @@ function Main() {
   const [search, setSearch] = useState('');
   const [newItem, setNewItem] = useState('');
   const [fetchErr, setFetchErr] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -31,12 +33,24 @@ function Main() {
         console.error(err.message);
         setFetchErr(err.message);
       }
+      finally {
+        setIsLoading(false);
+      }
     }
-    fetchItems();
+    setTimeout(() => {
+      fetchItems();
+
+    }, 500);
+
   }, []);
 
   const addItem = (item) => {
-    const id = groceries.length ? groceries[groceries.length - 1].id + 1 : 1;
+
+    const id = groceries.length
+      ? Math.max(...groceries.map(grocery => grocery.id)) + 1
+      : 1;
+
+    console.log(id)
     const newGrocery = {
       id: id,
       des: newItem,
@@ -79,11 +93,37 @@ function Main() {
       <AddItem newItem={newItem} setNewItem={setNewItem} handelSubmit={handelSubmit} />
       <SearchBar search={search} setSearch={setSearch} />
 
-      <App
-        groceries={groceries.filter(grocery => grocery.des.toLowerCase().includes(search.toLowerCase()))}
-        setGroceries={setGroceries}
-        handleCheck={handleCheck}
-        binHandler={binHandler} />
+
+      <main>
+        {
+          fetchErr && <p style={{
+            color: "#ff6b6b",
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center"
+
+
+          }}>{`Error : ${fetchErr}`}</p>
+        }
+        {
+          isLoading && <p style={{
+            color: "#4caf50",
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center"
+
+
+          }}>Lading Data...</p>
+        }
+
+        {!fetchErr && !isLoading && <App
+          groceries={groceries.filter(grocery => grocery.des.toLowerCase().includes(search.toLowerCase()))}
+          setGroceries={setGroceries}
+          handleCheck={handleCheck}
+          binHandler={binHandler} />}
+      </main>
+
+
 
       <Footer length={groceries.length} />
 
@@ -96,4 +136,4 @@ createRoot(document.getElementById('root')).render(
 
   <Main />
 
-)
+);
