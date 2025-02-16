@@ -5,7 +5,7 @@ import Footer from './footer.jsx';
 import { useState, useEffect } from 'react';
 import AddItem from './additem.jsx';
 import SearchBar from './searchBar.jsx';
-
+import apiRequest from './apiRequest.jsx';
 
 
 function Main() {
@@ -44,35 +44,74 @@ function Main() {
 
   }, []);
 
-  const addItem = (item) => {
+  const addItem = async (item) => {
 
     const id = groceries.length
       ? Math.max(...groceries.map(grocery => grocery.id)) + 1
       : 1;
-
-    console.log(id)
     const newGrocery = {
       id: id,
       des: newItem,
       isBought: false
     }
+    setGroceries([...groceries, newGrocery]);
 
-    setGroceries([...groceries, newGrocery])
+    // ADDING ITEM TO THE JSON-SERVER
 
+    const postOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/json'
+      },
+      body: JSON.stringify(newGrocery)
+    }
+    const result = await apiRequest(API_URL, postOptions);
+    if (result) setFetchErr(result);
+    console.log("ADDED to DB")
 
   }
 
-  const handleCheck = (id) => {
+
+  //   HANDELS THE CHECK OPRATION ON A LIST
+
+
+
+  const handleCheck = async (id) => {
     console.log('handleCheck', id);
-    const grocerylist = groceries.map((grocery) => {
-      if (grocery.id === id) {
-        return { ...grocery, isBought: !grocery.isBought };
-      }
-      return grocery;
-    });
 
-    setGroceries(grocerylist)
-  }
+    // Update local state first for a better user experience
+    const updatedGroceries = groceries.map((grocery) =>
+      grocery.id === id ? { ...grocery, isBought: !grocery.isBought } : grocery
+    );
+
+    setGroceries(updatedGroceries); // ✅ Optimistically update UI
+
+    // Find the updated item
+    const item = updatedGroceries.find(item => item.id === id);
+    if (!item) {
+      console.error("Item not found");
+      return;
+    }
+
+    // API request options
+    const updateOptions = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isBought: item.isBought })
+    };
+
+    // Make the API request
+    const reqUrl = `${API_URL}/${id}`;
+    const result = await apiRequest(reqUrl, updateOptions);
+
+    if (result) {
+      setFetchErr(result);
+      console.error("API update failed:", result);
+    }
+
+    console.log("Checked");
+  };
+
 
   const binHandler = (id) => {
     const list = groceries.filter((grocery) => grocery.id !== id);
