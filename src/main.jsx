@@ -113,9 +113,25 @@ function Main() {
   };
 
 
-  const binHandler = (id) => {
+
+  // HANDELS THE DELETE BUTTON
+
+  const binHandler = async (id) => {
     const list = groceries.filter((grocery) => grocery.id !== id);
     setGroceries(list);
+    const deleteOptions = {
+      method: 'DELETE'
+    };
+
+    const reqUrl = `${API_URL}/${id}`; // ✅ Use correct API URL
+
+    const result = await apiRequest(reqUrl, deleteOptions); // ✅ Await the API request
+
+    if (result) {
+      setFetchErr(result);
+      console.error("Delete failed:", result);
+    }
+
   }
 
   const handelSubmit = (e) => {

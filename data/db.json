@@ -2,23 +2,28 @@
   "items": [
     {
       "id": "1",
-      "des": "milk",
-      "isBought": false
-    },
-    {
-      "id": "2",
-      "des": "bread",
+      "des": "item 1",
       "isBought": true
     },
     {
+      "id": "2",
+      "des": "item 2",
+      "isBought": false
+    },
+    {
       "id": "3",
-      "des": "eggs (large)",
+      "des": "item 3",
       "isBought": false
     },
     {
       "id": "4",
-      "des": "Banands",
+      "des": "item 4",
       "isBought": false
+    },
+    {
+      "id": "5",
+      "des": "item 5",
+      "isBought": true
     }
   ]
 }
