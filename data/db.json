@@ -1,29 +1,39 @@
 {
   "items": [
     {
-      "id": "1",
-      "des": "item 1",
-      "isBought": true
-    },
-    {
-      "id": "2",
-      "des": "item 2",
+      "id": 1,
+      "des": "HTML",
       "isBought": false
     },
     {
-      "id": "3",
-      "des": "item 3",
+      "id": 2,
+      "des": "CSS",
       "isBought": false
     },
     {
-      "id": "4",
-      "des": "item 4",
+      "id": 3,
+      "des": "JS",
       "isBought": false
     },
     {
-      "id": "5",
-      "des": "item 5",
-      "isBought": true
+      "id": 4,
+      "des": "REACT",
+      "isBought": false
+    },
+    {
+      "id": 5,
+      "des": "NODE",
+      "isBought": false
+    },
+    {
+      "id": 6,
+      "des": "MONGO DB",
+      "isBought": false
+    },
+    {
+      "id": 7,
+      "des": "EXPRESS",
+      "isBought": false
     }
   ]
 }
