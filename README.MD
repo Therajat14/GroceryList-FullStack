@@ -25,30 +25,23 @@ This is a full-stack web application for managing a grocery list. Users can add,
     ```sh
     cd GroceryList-FullStack
     ```
-3. Install dependencies for the backend:
+3. Install dependencies 
     ```sh
-    cd backend
     npm install
     ```
-4. Install dependencies for the frontend:
-    ```sh
-    cd ../frontend
-    npm install
-    ```
+
 
 ## Usage
 
 1. Start the backend server:
     ```sh
-    cd backend
-    npm start
+   json-server -p 3500 -w data/db.json
     ```
 2. Start the frontend development server:
     ```sh
-    cd ../frontend
-    npm start
+   npm run dev
+
     ```
-3. Open your browser and navigate to `http://localhost:3000`.
 
 ## Contributing
 
